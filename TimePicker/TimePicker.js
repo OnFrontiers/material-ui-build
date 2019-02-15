@@ -171,10 +171,13 @@ var TimePicker = function (_Component) {
           style = _props.style,
           textFieldStyle = _props.textFieldStyle,
           minutesStep = _props.minutesStep,
-          other = (0, _objectWithoutProperties3.default)(_props, ['autoOk', 'cancelLabel', 'defaultTime', 'dialogBodyStyle', 'dialogStyle', 'format', 'okLabel', 'onFocus', 'onClick', 'onShow', 'onDismiss', 'pedantic', 'style', 'textFieldStyle', 'minutesStep']);
+          formatTimeProp = _props.formatTime,
+          other = (0, _objectWithoutProperties3.default)(_props, ['autoOk', 'cancelLabel', 'defaultTime', 'dialogBodyStyle', 'dialogStyle', 'format', 'okLabel', 'onFocus', 'onClick', 'onShow', 'onDismiss', 'pedantic', 'style', 'textFieldStyle', 'minutesStep', 'formatTime']);
       var prepareStyles = this.context.muiTheme.prepareStyles;
       var time = this.state.time;
 
+
+      var formatTimeFn = formatTimeProp || _timeUtils.formatTime;
 
       return _react2.default.createElement(
         'div',
@@ -182,7 +185,7 @@ var TimePicker = function (_Component) {
         _react2.default.createElement(_TextField2.default, (0, _extends3.default)({}, other, {
           style: textFieldStyle,
           ref: 'input',
-          value: time === emptyTime ? null : (0, _timeUtils.formatTime)(time, format, pedantic),
+          value: time === emptyTime ? null : formatTimeFn(time, format, pedantic),
           onFocus: this.handleFocusInput,
           onClick: this.handleClickInput
         })),
@@ -250,6 +253,13 @@ TimePicker.propTypes = process.env.NODE_ENV !== "production" ? {
    * Tells the component to display the picker in `ampm` (12hr) format or `24hr` format.
    */
   format: _propTypes2.default.oneOf(['ampm', '24hr']),
+  /**
+   * This function is called to format the time displayed in the input field, and should return a string.
+   *
+   * @param {object} date Date object to be formatted.
+   * @returns {any} The formatted date.
+   */
+  formatTime: _propTypes2.default.func,
   /**
    * How many minutes should be added/subtracted when moving the clock pointer.
    */
